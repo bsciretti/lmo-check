@@ -41,9 +41,52 @@ for (i in payload) {
 }
 }
     if (i = payload.length) {
+        sl(ludlud);
+    }
+}
+function sl(callback) {
+//impostazioni SL
+var data = fs.readFileSync('sl.json', 'utf8');
+//console.log(data)
+var workon = JSON.parse(data);
+var payload = workon.query.pages[195448].transcludedin;
+//console.dir(payload);
+//caricamento pagine
+for (i in payload) { 
+    chiama = payload[i].title;
+    pageid = payload[i].pageid;
+    inietta = chiama.replace(/ /g, "_");
+    apiurl = 'https://lmo.wikipedia.org/w/api.php?action=query&prop=extracts&exchars=1200&explaintext&titles='+inietta+'&format=json';
+    if (pageid != "216505" && pageid != "216506" && pageid != "196093" && pageid != "214398" && pageid != "214062" && pageid != "214064" && pageid != "214314" && pageid != "216530" && pageid != "215845" && pageid != "213280" && pageid != "218755"){
+    download(apiurl,pageid,"SL");
+}
+}
+    if (i = payload.length) {
+        ludlud(lorunif);
+    }
+}
+function ludlud(callback) {
+//impostazioni LUDLUD
+var data = fs.readFileSync('ludlud.json', 'utf8');
+//console.log(data)
+var workon = JSON.parse(data);
+var payload = workon.query.pages[130800].transcludedin;
+//console.dir(payload);
+//caricamento pagine
+for (i in payload) { 
+    chiama = payload[i].title;
+    pageid = payload[i].pageid;
+    inietta = chiama.replace(/ /g, "_");
+    apiurl = 'https://lmo.wikipedia.org/w/api.php?action=query&prop=extracts&exchars=1200&explaintext&titles='+inietta+'&format=json';
+    if (pageid != "56617"){
+    download(apiurl,pageid,"LUDLUD");
+}
+}
+    if (i = payload.length) {
         lorunif(genera);
     }
 }
+
 function lorunif(callback) {
 //impostazioni LORUNIF
 var data = fs.readFileSync('lorunif.json', 'utf8');
@@ -62,7 +105,7 @@ for (i in payload) {
     }
 }
     if (i = payload.length) {
-        setTimeout(callback, 75000);
+        setTimeout(callback, 115000);
     }
 }
 function download (apiurl,pageid,dialetto) {
@@ -92,9 +135,9 @@ function genera() {
         return console.log(err);
         }
         console.log("The file was saved!");
-        console.log(lmo.categorize("El Popol milanes l'eva casciaa via i todesch in la gloriosa battaja de Legnan del 29 de magg del 1176"))
-        console.log(lmo.categorize("Ambrös a l'era el sant el püssee impurtant de la storia milanesa insèma a la surela e al fredèl"))
+
 
 }); 
 }
+
 
