@@ -3,7 +3,8 @@ var bayes = require('bayes')
 var request = require('request');
 const fs = require('fs');
 var lmo = bayes()
-
+milclass(locc);
+function milclass(callback) {
 //impostazioni MILCLASS
 var data = fs.readFileSync('milclass.json', 'utf8');
 //console.log(data)
@@ -16,36 +17,77 @@ for (i in payload) {
     pageid = payload[i].pageid;
     inietta = chiama.replace(/ /g, "_");
     apiurl = 'https://lmo.wikipedia.org/w/api.php?action=query&prop=extracts&exchars=1200&explaintext&titles='+inietta+'&format=json';
-    console.log(apiurl);
+    download(apiurl,pageid,"MILCLASS"); 
+}
+    locc(lorunif);
+}
+function locc(callback) {
+//impostazioni LOCC
+var data = fs.readFileSync('locc.json', 'utf8');
+//console.log(data)
+var workon = JSON.parse(data);
+var payload = workon.query.pages[122864].transcludedin;
+//console.dir(payload);
+//caricamento pagine
+for (i in payload) { 
+    chiama = payload[i].title;
+    pageid = payload[i].pageid;
+    inietta = chiama.replace(/ /g, "_");
+    apiurl = 'https://lmo.wikipedia.org/w/api.php?action=query&prop=extracts&exchars=1200&explaintext&titles='+inietta+'&format=json';
+    if (pageid != "56617"){
+    download(apiurl,pageid,"LOCC");
+}
+}
+    lorunif(genera);
+}
+function lorunif(callback) {
+//impostazioni LORUNIF
+var data = fs.readFileSync('lorunif.json', 'utf8');
+//console.log(data)
+var workon = JSON.parse(data);
+var payload = workon.query.pages[159356].transcludedin;
+//console.dir(payload);
+//caricamento pagine
+for (i in payload) { 
+    chiama = payload[i].title;
+    pageid = payload[i].pageid;
+    inietta = chiama.replace(/ /g, "_");
+    apiurl = 'https://lmo.wikipedia.org/w/api.php?action=query&prop=extracts&exchars=1200&explaintext&titles='+inietta+'&format=json';
+    download(apiurl,pageid,"LORUNIF"); 
+}
+    callback();
+}
+function download (apiurl,pageid,dialetto) {
     request.get(apiurl, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-        var myjson = body;
+        let myjson = body;
         //console.log(myjson);
         console.log(pageid);
         console.log(apiurl)
-        console.log(inietta)
-        var learn = JSON.parse(myjson);
-        var tolearn = learn.query.pages[pageid];
+        let learn = JSON.parse(myjson);
+        let tolearn = learn.query.pages[pageid].extract;
         console.log(tolearn);
+        impara(tolearn,dialetto);
     }
 }); 
 }
-function learn (title, todial) {
-    lmo.learn(titolo,todial);
-    console.log("Saved %s in %s",title,todial);
+
+function impara(text, todial) {
+    lmo.learn(text,todial);
+    console.log("Saved %s",todial);
 }
 
-/*console.log(lmo.categorize("I jent lombarde viveven vexin a Roma"))
-
-var exported = lmo.toJson()
-
-fs.writeFile("learned.json", exported, function(err) {
-
+function genera() {
+    var exported = lmo.toJson()
+    fs.writeFile("learned.json", exported, function(err) {
     if(err) {
         return console.log(err);
-    }
+        }
+        console.log("The file was saved!");
+        console.log(lmo.categorize("El Popol milanes l'eva casciaa via i todesch in la gloriosa battaja de Legnan del 29 de magg del 1176"))
+        console.log(lmo.categorize("Ambrös a l'era el sant el püssee impurtant de la storia milanesa insèma a la surela e al fredèl"))
 
-    console.log("The file was saved!");
 }); 
+}
 
- */
+
