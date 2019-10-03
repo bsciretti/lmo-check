@@ -19,7 +19,9 @@ for (i in payload) {
     apiurl = 'https://lmo.wikipedia.org/w/api.php?action=query&prop=extracts&exchars=1200&explaintext&titles='+inietta+'&format=json';
     download(apiurl,pageid,"MILCLASS"); 
 }
+    if (i = payload.length) {
     locc(lorunif);
+    }
 }
 function locc(callback) {
 //impostazioni LOCC
@@ -38,7 +40,9 @@ for (i in payload) {
     download(apiurl,pageid,"LOCC");
 }
 }
-    lorunif(genera);
+    if (i = payload.length) {
+        lorunif(genera);
+    }
 }
 function lorunif(callback) {
 //impostazioni LORUNIF
@@ -53,9 +57,13 @@ for (i in payload) {
     pageid = payload[i].pageid;
     inietta = chiama.replace(/ /g, "_");
     apiurl = 'https://lmo.wikipedia.org/w/api.php?action=query&prop=extracts&exchars=1200&explaintext&titles='+inietta+'&format=json';
+    if (pageid != "136063") {
     download(apiurl,pageid,"LORUNIF"); 
+    }
 }
-    callback();
+    if (i = payload.length) {
+        setTimeout(callback, 75000);
+    }
 }
 function download (apiurl,pageid,dialetto) {
     request.get(apiurl, function (error, response, body) {
@@ -89,5 +97,4 @@ function genera() {
 
 }); 
 }
-
 
